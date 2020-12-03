@@ -1,0 +1,63 @@
+@startuml
+
+class Mastermind
+{
+ + play()
+ {static} main()
+}
+
+
+Mastermind *-down-> SecretCombination
+class SecretCombination
+{
++generate()
++show()
++showDecrypted()
+}
+
+Mastermind *-down-> "1..10" ProposedCombination
+class ProposedCombination
+{
++generate()
+}
+
+abstract class Combination
+{
++size()
++show()
++propose()
++{abstract}generate()
++saveCombination(String proposal)
++isValid()
+}
+
+Combination <|-down- SecretCombination
+
+Combination <|-down- ProposedCombination
+
+Mastermind *--> "1..10" Result
+class Result
+{
++verify(SecretCombination, ProposedCombination)
++isWinner()
++numberOfBlacks()
++numberOfWhites()
+}
+
+Result ..> SecretCombination
+Result ..> ProposedCombination
+
+
+Combination *-->"4" Color
+enum Color {
+  RED
+  GREEN
+  YELLOW
+  ORANGE
+  PURPLE
+  BLUE
++{static}valueOf(char)
++getColor()
+}
+
+@enduml
